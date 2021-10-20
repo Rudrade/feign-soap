@@ -3,7 +3,13 @@ package com.rudrade.soap.invoker;
 import com.rudrade.soap.client.CalculatorClient;
 import com.rudrade.soap.logger.RequestLogger;
 import com.rudrade.soap.request.AddRequest;
+import com.rudrade.soap.request.DivideRequest;
+import com.rudrade.soap.request.MultiplyRequest;
+import com.rudrade.soap.request.SubtractRequest;
 import com.rudrade.soap.response.AddResponse;
+import com.rudrade.soap.response.DivideResponse;
+import com.rudrade.soap.response.MultiplyResponse;
+import com.rudrade.soap.response.SubtractResponse;
 import feign.Feign;
 import feign.Logger;
 import feign.jaxb.JAXBContextFactory;
@@ -18,7 +24,7 @@ public class CalculatorInvoker {
     public CalculatorInvoker() {
         JAXBContextFactory oFactory = new JAXBContextFactory.Builder()
                 .withMarshallerJAXBEncoding("UTF-8")
-                .withMarshallerSchemaLocation("http://www.dneonline.com http://www.dneonline.com/schema.xsd")
+                .withMarshallerSchemaLocation("http://www.dneonline.com/schema.xsd")
                 .build();
 
         Feign.Builder oBuilder = Feign.builder()
@@ -31,8 +37,20 @@ public class CalculatorInvoker {
         ivCalculatorClient = oBuilder.target(CalculatorClient.class, "http://www.dneonline.com");
     }
 
-    public AddResponse addValues(int intA, int intB) {
-        return ivCalculatorClient.calculateValues(new AddRequest(intA, intB));
+    public AddResponse add(int intA, int intB) {
+        return ivCalculatorClient.add(new AddRequest(intA, intB));
+    }
+
+    public SubtractResponse subtract(int intA, int intB) {
+        return ivCalculatorClient.subtract(new SubtractRequest(intA, intB));
+    }
+
+    public MultiplyResponse multiply(int intA, int intB) {
+        return ivCalculatorClient.multiply(new MultiplyRequest(intA, intB));
+    }
+
+    public DivideResponse divide(int intA, int intB) {
+        return ivCalculatorClient.divide(new DivideRequest(intA, intB));
     }
 
 }
